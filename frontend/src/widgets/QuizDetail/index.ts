@@ -1,0 +1,1 @@
+export { QuizDetail } from "./QuizDetail";
