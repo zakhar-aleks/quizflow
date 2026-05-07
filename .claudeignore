@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+build/
+coverage/
+.code-review-graph/
+*.log
+.DS_Store
+backend/prisma/migrations/
+frontend/next-env.d.ts
+package-lock.json
+frontend/package-lock.json
+backend/package-lock.json
