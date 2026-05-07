@@ -29,7 +29,7 @@ quizflow/
 │       ├── features/                createQuiz schema, deleteQuiz slice
 │       ├── shared/api/              RTK Query (baseApi)
 │       ├── widgets/                 UI components
-│       └── pages/                   Page-level components
+│       └── views/                   Page-level components (FSD pages layer)
 └── docker-compose.yml
 ```
 

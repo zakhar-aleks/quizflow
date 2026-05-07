@@ -102,15 +102,15 @@ quizflow/
         │   └── deleteQuiz/         Redux slice for per-quiz delete loading state
         ├── shared/
         │   ├── api/                RTK Query — baseApi with all quiz endpoints
-        │   ├── lib/                Redux store, RootState/AppDispatch types, utilities
-        │   └── ui/                 Shared primitive components (shadcn-ready, FSD shared layer)
+        │   ├── lib/                Redux store, RootState/AppDispatch types, cn() utility
+        │   └── ui/                 Shared primitive components (FSD shared layer)
         ├── widgets/
         │   ├── Layout/             Header + Sidebar (always-visible shell)
         │   ├── QuizForm/           Create/edit form — supports both modes via existingQuiz prop
         │   ├── QuizList/           Quiz cards grid with delete
         │   ├── QuizDetail/         Read-only quiz preview with edit/take action buttons
         │   └── TakeQuiz/           Interactive quiz runner with scoring and results screen
-        └── pages/
+        └── views/                  FSD pages layer (renamed from pages/ to avoid Next.js Pages Router conflict)
             ├── create/             CreateQuizPage
             ├── quiz-detail/        QuizDetailPage
             ├── edit-quiz/          EditQuizPage
@@ -187,7 +187,7 @@ No skipping layers upward. A `widget` can import from `features`, `entities`, an
 | `widgets` | Composite UI blocks combining features/entities (QuizForm, TakeQuiz) | Page routing, app config |
 | `pages` | Page components assembled from widgets — thin wrappers | Business logic, direct API calls |
 
-**`app/` route files are re-exports only.** One-liner: `export { QuizzesPage as default } from "@/pages/quizzes/ui/QuizzesPage"`. No JSX, no logic, no layout in route files — all that lives in `src/pages/`.
+**`app/` route files are re-exports only.** One-liner: `export { QuizzesPage as default } from "@/views/quizzes/ui/QuizzesPage"`. No JSX, no logic, no layout in route files — all that lives in `src/views/`.
 
 **Every FSD slice must have an `index.ts` barrel.** Public API is what the barrel exports. Internal files are not consumed directly from outside the slice.
 
@@ -357,6 +357,18 @@ The `tailwind.config.ts` safelist includes `bg-blue-50`, `text-blue-600`, `bg-pu
 ### RTK Query tag invalidation
 
 After `createQuiz` and `deleteQuiz`, the `"Quiz"` tag is invalidated, which refetches `getQuizzes`. After `updateQuiz`, both `{ type: "Quiz", id }` and the list tag `"Quiz"` are invalidated to refresh both the detail view and the sidebar quiz list.
+
+### FSD pages layer is named `src/views/`, not `src/pages/`
+
+Next.js treats any `src/pages/` directory as the Pages Router. Since this project uses App Router (`app/` at root), having `src/pages/` caused a build failure: Next.js tried to treat FSD page components as Pages Router routes. The layer was renamed to `src/views/`. All `app/**/page.tsx` imports use `@/views/...`.
+
+### Docker — use `node:20` not Alpine for both services
+
+Alpine (musl libc) causes binary incompatibilities with both Prisma's query engine and Next.js's SWC compiler. Use `node:20` (Debian/glibc) for backend (single stage) and frontend builder. Frontend runtime uses `node:20-slim`.
+
+### Backend compiled output is at `dist/src/main.js`, not `dist/main.js`
+
+The backend `tsconfig.json` has no `rootDir`. TypeScript infers the common root as the project root (since `prisma/seed.ts` is also included). Output mirrors the source tree: `src/main.ts` → `dist/src/main.js`. The Docker CMD uses `node dist/src/main`.
 
 ### Scope changes tightly
 
