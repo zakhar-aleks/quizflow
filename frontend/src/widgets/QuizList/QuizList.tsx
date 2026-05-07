@@ -17,7 +17,7 @@ export function QuizList() {
     if (!quizzes?.length) return (
         <div className="flex flex-col items-center justify-center p-12 bg-white border border-slate-200 rounded-xl shadow-sm text-center">
             <h3 className="text-lg font-bold text-slate-800 mb-2">No quizzes found</h3>
-            <p className="text-slate-500 mb-6 font-medium">You haven't created any quizzes yet.</p>
+            <p className="text-slate-500 mb-6 font-medium">You haven&apos;t created any quizzes yet.</p>
             <Link href="/create" className="px-6 py-2.5 bg-indigo-600 text-white font-medium rounded-lg shadow-sm shadow-indigo-200 hover:bg-indigo-700 transition-colors">
                 Create First Quiz
             </Link>

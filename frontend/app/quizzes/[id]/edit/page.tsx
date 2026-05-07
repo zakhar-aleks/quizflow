@@ -1,1 +1,1 @@
-export { EditQuizPage as default } from "@/pages/edit-quiz/ui/EditQuizPage";
+export { EditQuizPage as default } from "@/views/edit-quiz/ui/EditQuizPage";

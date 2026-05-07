@@ -1,1 +1,1 @@
-export { QuizzesPage as default } from "@/pages/quizzes/ui/QuizzesPage";
+export { QuizzesPage as default } from "@/views/quizzes/ui/QuizzesPage";
