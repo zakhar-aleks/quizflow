@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "frontend-excellence@dotclaude-plugins": true,
+    "writing@jezweb-skills": true,
+    "dev-tools@jezweb-skills": true,
+    "andrej-karpathy-skills@karpathy-skills": true
+  }
+}
